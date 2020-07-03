@@ -13,7 +13,9 @@ locals {
       DD_PROCESS_AGENT_ENABLED = "true"
       DD_TAGS = "env:${var.env} app:${var.app_name}"
       DD_TRACE_ANALYTICS_ENABLED = "true"
-//      ECS_FARGATE = var.ecs_launch_type == "FARGATE" ? "true" : "false"
+
+      // https://www.datadoghq.com/blog/monitor-aws-fargate/
+      ECS_FARGATE = var.ecs_launch_type == "FARGATE" ? "true" : "false"
     }
   )
 
@@ -22,8 +24,9 @@ locals {
       image = "${var.docker_image_name}:${var.docker_image_tag}",
       memoryReservation = 128,
       essential = true,
+      resourceRequirements = var.resource_requirements
 
-      environment = [for k, v in local.environment : {name = k, value = v}]
+    environment = [for k, v in local.environment : {name = k, value = v}]
       secrets = module.ssm.secrets
 
       volumeMappings = var.ecs_launch_type == "FARGATE" ? [] : [

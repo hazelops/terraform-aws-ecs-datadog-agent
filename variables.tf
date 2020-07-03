@@ -41,3 +41,7 @@ variable "ecs_launch_type" {
 variable "cloudwatch_log_group" {
   default = ""
 }
+
+variable "resource_requirements" {
+  default = []
+}
