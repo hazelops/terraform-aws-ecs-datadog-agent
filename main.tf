@@ -59,5 +59,5 @@ module "ssm" {
   version = "~> 1.0"
   env = var.env
   app_name = var.app_name
-  names = local.secret_names
+  names = var.enabled ? local.secret_names : []
 }

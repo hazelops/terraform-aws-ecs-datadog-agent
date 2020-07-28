@@ -45,3 +45,7 @@ variable "cloudwatch_log_group" {
 variable "resource_requirements" {
   default = []
 }
+
+variable "enabled" {
+  default = true
+}
