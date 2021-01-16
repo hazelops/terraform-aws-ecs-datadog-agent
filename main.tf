@@ -17,10 +17,7 @@ locals {
 
       // https://www.datadoghq.com/blog/monitor-aws-fargate/
       ECS_FARGATE = var.ecs_launch_type == "FARGATE" ? "true" : "false"
-    },
-    (var.ecs_launch_type == "EC2" && var.socket_apm_enabled_on_ec2) ? {
-      DD_APM_RECEIVER_SOCKET = "/var/run/datadog.sock"
-    } : {}
+    }
   )
 
   container_definition = {
@@ -50,14 +47,7 @@ locals {
         sourceVolume  = "proc"
         // This is disabled temporarily to overcome json unmarshaling issue
         //        readOnly = true
-      },
-
-      var.socket_apm_enabled_on_ec2 ? {
-        containerPath = "/var/run/datadog.sock"
-        sourceVolume  = "datadog_sock"
-        // This is disabled temporarily to overcome json unmarshaling issue
-        //        readOnly = true
-      } : {}
+      }
     ]
 
 
@@ -93,15 +83,6 @@ locals {
     {
       name      = "cgroup"
       host_path = "/sys/fs/cgroup/"
-    },
-    {
-      name      = "datadog_sock"
-      host_path = "/var/run/datadog.sock"
-      mount_point = {
-        "sourceVolume"  = "datadog_sock"
-        "containerPath" = "/var/run/datadog.sock"
-        "readOnly"      = null
-      }
     }
   ]
 
