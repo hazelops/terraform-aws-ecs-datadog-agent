@@ -38,14 +38,12 @@ locals {
       {
         containerPath = "/host/sys/fs/cgroup",
         sourceVolume  = "cgroup",
-        //  TODO: removed temporarily
-        //        readOnly      = true
+        readOnly      = true
       },
       {
         containerPath = "/host/proc",
         sourceVolume  = "proc",
-        //  TODO: removed temporarily
-        //        readOnly      = true
+        readOnly      = true
       }
     ]
 
@@ -72,22 +70,16 @@ locals {
 
   volumes = var.ecs_launch_type == "FARGATE" ? [] : [
     {
-      host = {
-        sourcePath = "/var/run/docker.sock"
-      },
-      name = "docker_sock"
+      name      = "docker_sock"
+      host_path = "/var/run/docker.sock"
     },
     {
-      host = {
-        sourcePath : "/proc/"
-      },
-      name = "proc"
+      name      = "proc"
+      host_path = "/proc/"
     },
     {
-      host = {
-        sourcePath = "/cgroup/"
-      },
-      name = "cgroup"
+      name      = "cgroup"
+      host_path = "/cgroup/"
     }
   ]
 
