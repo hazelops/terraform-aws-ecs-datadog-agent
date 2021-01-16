@@ -11,12 +11,12 @@ variable "app_name" {
 
 
 variable "environment" {
-  type = map(string)
+  type    = map(string)
   default = {}
 }
 
 variable "secret_names" {
-  type = list(string)
+  type    = list(string)
   default = []
 }
 
@@ -25,12 +25,12 @@ variable "secret_names" {
 //}
 
 variable "docker_image_name" {
-  type = string
+  type    = string
   default = "datadog/agent"
 }
 
 variable "docker_image_tag" {
-  type = string
+  type    = string
   default = "latest"
 }
 
@@ -44,6 +44,10 @@ variable "cloudwatch_log_group" {
 
 variable "resource_requirements" {
   default = []
+}
+
+variable "socket_apm_enabled_on_ec2" {
+  default = true
 }
 
 variable "enabled" {
