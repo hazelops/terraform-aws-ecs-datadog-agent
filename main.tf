@@ -34,7 +34,7 @@ locals {
     mountPoints = var.ecs_launch_type == "FARGATE" ? [] : [
       {
         containerPath = "/var/run/docker.sock"
-        sourceVolume  = "docker_sock"
+        sourceVolume  = "docker-sock"
       },
       {
         containerPath = "/host/sys/fs/cgroup"
@@ -73,7 +73,7 @@ locals {
 
   volumes = var.ecs_launch_type == "FARGATE" ? [] : [
     {
-      name      = "docker_sock"
+      name      = "docker-sock"
       host_path = "/var/run/docker.sock"
     },
     {
