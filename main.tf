@@ -38,12 +38,14 @@ locals {
       {
         containerPath = "/host/sys/fs/cgroup",
         sourceVolume  = "cgroup",
-        readOnly      = true
+        // This is disabled temporarily to overcome json unmarshaling issue
+        //        readOnly      = true
       },
       {
         containerPath = "/host/proc",
         sourceVolume  = "proc",
-        readOnly      = true
+        // This is disabled temporarily to overcome json unmarshaling issue
+        //        readOnly = true
       }
     ]
 
