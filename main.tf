@@ -32,18 +32,18 @@ locals {
 
     mountPoints = var.ecs_launch_type == "FARGATE" ? [] : [
       {
-        containerPath = "/var/run/docker.sock",
+        containerPath = "/var/run/docker.sock"
         sourceVolume  = "docker_sock"
       },
       {
-        containerPath = "/host/sys/fs/cgroup",
-        sourceVolume  = "cgroup",
+        containerPath = "/host/sys/fs/cgroup"
+        sourceVolume  = "cgroup"
         // This is disabled temporarily to overcome json unmarshaling issue
         //        readOnly      = true
       },
       {
-        containerPath = "/host/proc",
-        sourceVolume  = "proc",
+        containerPath = "/host/proc"
+        sourceVolume  = "proc"
         // This is disabled temporarily to overcome json unmarshaling issue
         //        readOnly = true
       }
