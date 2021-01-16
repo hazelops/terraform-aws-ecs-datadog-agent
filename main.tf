@@ -13,6 +13,7 @@ locals {
       DD_PROCESS_AGENT_ENABLED       = "true"
       DD_TAGS                        = "env:${var.env} app:${var.app_name}"
       DD_TRACE_ANALYTICS_ENABLED     = "true"
+      DD_SITE                        = "datadoghq.com"
 
       // https://www.datadoghq.com/blog/monitor-aws-fargate/
       ECS_FARGATE = var.ecs_launch_type == "FARGATE" ? "true" : "false"
@@ -91,7 +92,7 @@ locals {
     },
     {
       name      = "cgroup"
-      host_path = "/cgroup/"
+      host_path = "/sys/fs/cgroup/"
     },
     {
       name      = "datadog_sock"
@@ -103,6 +104,7 @@ locals {
       }
     }
   ]
+  family = "datadog-agent-task"
 
 }
 
