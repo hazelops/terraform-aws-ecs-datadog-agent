@@ -38,12 +38,12 @@ locals {
       {
         containerPath = "/host/sys/fs/cgroup",
         sourceVolume  = "cgroup",
-        readOnly      = "true"
+        readOnly      = true
       },
       {
         containerPath = "/host/proc",
         sourceVolume  = "proc",
-        readOnly      = "true"
+        readOnly      = true
       }
     ]
 
