@@ -31,26 +31,6 @@ locals {
 
     secrets = module.ssm.secrets
 
-    mountPoints = var.ecs_launch_type == "FARGATE" ? [] : [
-      {
-        containerPath = "/var/run/docker.sock"
-        sourceVolume  = "docker-sock"
-      },
-      {
-        containerPath = "/host/sys/fs/cgroup"
-        sourceVolume  = "cgroup"
-        // This is disabled temporarily to overcome json unmarshaling issue
-        //        readOnly      = true
-      },
-      {
-        containerPath = "/host/proc"
-        sourceVolume  = "proc"
-        // This is disabled temporarily to overcome json unmarshaling issue
-        //        readOnly = true
-      }
-    ]
-
-
     portMappings = var.ecs_launch_type == "FARGATE" ? [] : [
       {
         protocol      = "tcp",
@@ -71,18 +51,18 @@ locals {
     }
   }
 
-  volumes = var.ecs_launch_type == "FARGATE" ? [] : [
+  volumeMappings = var.ecs_launch_type == "FARGATE" ? [] : [
     {
-      name      = "docker-sock"
-      host_path = "/var/run/docker.sock"
+      containerVolume = "/var/run/docker.sock",
+      hostVolume = "/var/run/docker.sock"
     },
     {
-      name      = "proc"
-      host_path = "/proc/"
+      containerVolume = "/host/proc",
+      hostVolume = "/proc/"
     },
     {
-      name      = "cgroup"
-      host_path = "/sys/fs/cgroup/"
+      containerVolume = "/host/sys/fs/cgroup",
+      hostVolume = "/sys/fs/cgroup/"
     }
   ]
 
