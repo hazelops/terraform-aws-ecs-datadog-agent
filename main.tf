@@ -38,12 +38,14 @@ locals {
       {
         containerPath = "/host/sys/fs/cgroup",
         sourceVolume  = "cgroup",
-        readOnly      = true
+        //  TODO: removed temporarily
+        //        readOnly      = true
       },
       {
         containerPath = "/host/proc",
         sourceVolume  = "proc",
-        readOnly      = true
+        //  TODO: removed temporarily
+        //        readOnly      = true
       }
     ]
 
