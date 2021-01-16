@@ -104,8 +104,6 @@ locals {
       }
     }
   ]
-      
-  family = "datadog-agent-task"
 
 }
 
