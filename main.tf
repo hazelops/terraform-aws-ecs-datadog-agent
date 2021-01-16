@@ -49,26 +49,6 @@ locals {
       }
     ]
 
-    volumes = var.ecs_launch_type == "FARGATE" ? [] : [
-      {
-        host = {
-          sourcePath = "/var/run/docker.sock"
-        },
-        name = "docker_sock"
-      },
-      {
-        host = {
-          sourcePath : "/proc/"
-        },
-        name = "proc"
-      },
-      {
-        host = {
-          sourcePath = "/cgroup/"
-        },
-        name = "cgroup"
-      }
-    ]
 
     portMappings = var.ecs_launch_type == "FARGATE" ? [] : [
       {
@@ -89,6 +69,28 @@ locals {
       }
     }
   }
+
+  volumes = var.ecs_launch_type == "FARGATE" ? [] : [
+    {
+      host = {
+        sourcePath = "/var/run/docker.sock"
+      },
+      name = "docker_sock"
+    },
+    {
+      host = {
+        sourcePath : "/proc/"
+      },
+      name = "proc"
+    },
+    {
+      host = {
+        sourcePath = "/cgroup/"
+      },
+      name = "cgroup"
+    }
+  ]
+
 }
 
 module "ssm" {
