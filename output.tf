@@ -1,5 +1,5 @@
 output "container_definition" {
-  value = var.enabled ? local.container_definition : {}
+  value = var.enabled
 }
 
 output "volumes" {
