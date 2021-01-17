@@ -82,7 +82,7 @@ locals {
     }
   }
 
-  volumes = var.ecs_launch_type == "FARGATE" ? [] : concat([
+  volumes = concat(var.ecs_launch_type == "FARGATE" ? [] : [
     {
       name      = "docker-sock"
       host_path = "/var/run/docker.sock"
@@ -97,14 +97,15 @@ locals {
     }
 
     ],
-    var.socket_apm_enabled_on_ec2 ? [{
-      name      = "datadog-sock"
-      host_path = "/var/run/datadog.sock"
-      mount_point = {
-        "sourceVolume"  = "datadog-sock"
-        "containerPath" = "/var/run/datadog.sock"
-        "readOnly"      = null
-      }
+    var.socket_apm_enabled_on_ec2 ? [
+      {
+        name      = "datadog-sock"
+        host_path = "/var/run/datadog.sock"
+        mount_point = {
+          "sourceVolume"  = "datadog-sock"
+          "containerPath" = "/var/run/datadog.sock"
+          "readOnly"      = null
+        }
     }] : []
   )
 
