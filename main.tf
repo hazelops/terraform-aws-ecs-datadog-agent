@@ -33,10 +33,10 @@ locals {
 
     secrets = module.ssm.secrets
 
-    mountPoints = var.ecs_launch_type == "FARGATE" ? [] : [
+    mountPoints = var.ecs_launch_type == "FARGATE" ? [] : concat([
       {
         containerPath = "/var/run/docker.sock"
-        sourceVolume  = "docker_sock"
+        sourceVolume  = "docker-sock"
       },
       {
         containerPath = "/host/sys/fs/cgroup"
@@ -51,13 +51,15 @@ locals {
         //        readOnly = true
       },
 
-      var.socket_apm_enabled_on_ec2 ? {
+
+      ],
+      var.socket_apm_enabled_on_ec2 ? [{
         containerPath = "/var/run/datadog.sock"
-        sourceVolume  = "datadog_sock"
+        sourceVolume  = "datadog-sock"
         // This is disabled temporarily to overcome json unmarshaling issue
         //        readOnly = true
-      } : {}
-    ]
+      }] : []
+    )
 
 
     portMappings = var.ecs_launch_type == "FARGATE" ? [] : [
@@ -80,9 +82,9 @@ locals {
     }
   }
 
-  volumes = var.ecs_launch_type == "FARGATE" ? [] : [
+  volumes = var.ecs_launch_type == "FARGATE" ? [] : concat([
     {
-      name      = "docker_sock"
+      name      = "docker-sock"
       host_path = "/var/run/docker.sock"
     },
     {
@@ -92,17 +94,19 @@ locals {
     {
       name      = "cgroup"
       host_path = "/cgroup/"
-    },
-    {
-      name      = "datadog_sock"
+    }
+
+    ],
+    var.socket_apm_enabled_on_ec2 ? [{
+      name      = "datadog-sock"
       host_path = "/var/run/datadog.sock"
       mount_point = {
-        "sourceVolume"  = "datadog_sock"
+        "sourceVolume"  = "datadog-sock"
         "containerPath" = "/var/run/datadog.sock"
         "readOnly"      = null
       }
-    }
-  ]
+    }] : []
+  )
 
 }
 
