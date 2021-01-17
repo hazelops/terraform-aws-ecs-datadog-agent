@@ -13,12 +13,15 @@ locals {
       DD_PROCESS_AGENT_ENABLED       = "true"
       DD_TAGS                        = "env:${var.env} app:${var.app_name}"
       DD_TRACE_ANALYTICS_ENABLED     = "true"
+      DD_RUNTIME_METRICS_ENABLED     = "true"
+
 
       // https://www.datadoghq.com/blog/monitor-aws-fargate/
       ECS_FARGATE = var.ecs_launch_type == "FARGATE" ? "true" : "false"
     },
     (var.ecs_launch_type == "EC2" && var.socket_apm_enabled_on_ec2) ? {
       DD_APM_RECEIVER_SOCKET = "/var/run/datadog.sock"
+      DD_TRACE_AGENT_URL     = "/var/run/datadog.sock"
     } : {}
   )
 

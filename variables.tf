@@ -47,7 +47,7 @@ variable "resource_requirements" {
 }
 
 variable "socket_apm_enabled_on_ec2" {
-  default = true
+  default = false
 }
 
 variable "enabled" {
