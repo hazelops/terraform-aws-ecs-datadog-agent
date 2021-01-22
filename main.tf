@@ -118,6 +118,6 @@ module "ssm" {
   source   = "hazelops/ssm-secrets/aws"
   version  = "~> 1.0"
   env      = var.env
-  app_name = var.app_name
+  app_name = "global"
   names    = var.enabled ? local.secret_names : []
 }
