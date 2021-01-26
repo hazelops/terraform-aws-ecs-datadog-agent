@@ -1,7 +1,7 @@
 data "aws_region" "current" {}
 
 locals {
-  secret_names = concat(var.secret_names, [
+  global_secrets = concat(var.secret_names, [
     "DD_API_KEY",
   ])
 
@@ -118,6 +118,6 @@ module "ssm" {
   source   = "hazelops/ssm-secrets/aws"
   version  = "~> 1.0"
   env      = var.env
-  app_name = var.app_name
-  names    = var.enabled ? local.secret_names : []
+  app_name = "global"
+  names    = var.enabled ? local.global_secrets : []
 }
