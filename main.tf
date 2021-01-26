@@ -1,4 +1,5 @@
 data "aws_region" "current" {}
+data "aws_caller_identity" "current" {}
 
 locals {
   global_secrets = concat(var.secret_names, [
@@ -34,7 +35,15 @@ locals {
 
     environment = [for k, v in local.environment : { name = k, value = v }]
 
-    secrets = module.ssm.secrets
+    secrets = [for param_name in local.global_secrets :
+        {
+          name      = param_name
+          valueFrom = "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter/${var.env}/global/${param_name}"
+        }
+    ]
+        
+      
+      module.ssm.secrets
 
     mountPoints = var.ecs_launch_type == "FARGATE" ? [] : concat([
       {
@@ -112,12 +121,4 @@ locals {
     }] : []
   )
 
-}
-
-module "ssm" {
-  source   = "hazelops/ssm-secrets/aws"
-  version  = "~> 1.0"
-  env      = var.env
-  app_name = "global"
-  names    = var.enabled ? local.global_secrets : []
 }
