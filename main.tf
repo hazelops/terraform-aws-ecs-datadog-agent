@@ -41,9 +41,6 @@ locals {
           valueFrom = "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter/${var.env}/global/${param_name}"
         }
     ]
-        
-      
-      module.ssm.secrets
 
     mountPoints = var.ecs_launch_type == "FARGATE" ? [] : concat([
       {
