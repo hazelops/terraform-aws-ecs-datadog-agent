@@ -26,7 +26,7 @@ variable "secret_names" {
 
 variable "docker_image_name" {
   type    = string
-  default = "datadog/agent"
+  default = "public.ecr.aws/datadog/agent"
 }
 
 variable "docker_image_tag" {
