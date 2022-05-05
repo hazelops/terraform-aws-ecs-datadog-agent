@@ -15,7 +15,8 @@ locals {
       DD_TAGS                        = "env:${var.env} app:${var.app_name}"
       DD_TRACE_ANALYTICS_ENABLED     = "true"
       DD_RUNTIME_METRICS_ENABLED     = "true"
-
+      DD_PROFILING_ENABLED           = "true"
+      DD_LOGS_INJECTION              = "true"
 
       // https://www.datadoghq.com/blog/monitor-aws-fargate/
       ECS_FARGATE = var.ecs_launch_type == "FARGATE" ? "true" : "false"
