@@ -50,6 +50,14 @@ variable "socket_apm_enabled_on_ec2" {
   default = false
 }
 
+variable "opentelemetry_grpc_endpoint" {
+  default = "0.0.0.0:4317"
+}
+
+variable "opentelemetry_http_endpoint" {
+  default = "0.0.0.0:4318"
+}
+
 variable "enabled" {
   default = true
 }
