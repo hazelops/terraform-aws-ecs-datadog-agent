@@ -79,12 +79,7 @@ locals {
     )
 
 
-    portMappings = var.ecs_launch_type == "FARGATE" ? [
-      {
-        protocol      = "udp",
-        containerPort = 8125
-      }
-      ] : [
+    portMappings = [
       {
         protocol      = "tcp",
         containerPort = 8126
