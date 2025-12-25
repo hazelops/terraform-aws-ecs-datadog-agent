@@ -45,7 +45,7 @@ locals {
       for param_name in local.global_secrets :
       {
         name      = param_name
-        valueFrom = "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter/${var.env}/global/${param_name}"
+        valueFrom = "arn:aws:ssm:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:parameter/${var.env}/global/${param_name}"
       }
     ]
 
@@ -97,7 +97,7 @@ locals {
       logDriver = "awslogs",
       options = {
         awslogs-group         = var.cloudwatch_log_group
-        awslogs-region        = data.aws_region.current.name
+        awslogs-region        = data.aws_region.current.region
         awslogs-stream-prefix = var.name
       }
     }
